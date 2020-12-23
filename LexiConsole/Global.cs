@@ -6,7 +6,6 @@ namespace LexiConsole
 {
     public class Global
         {
-
             public List<string> myDictionaries = new List<string>();
             private string DefaultExtension { get; set; }
             private string DefaultDictionaryPath { get; set; }
@@ -46,7 +45,7 @@ namespace LexiConsole
 
             private void SetDefDictionaryPath()
             {
-                DefaultDictionaryPath = Path.GetPathRoot(Environment.SystemDirectory) + @"Users\" + Environment.UserName + @"\Documents\MyLex\Dictionaries\";
+                DefaultDictionaryPath = Path.GetPathRoot(Environment.SystemDirectory) + @"Users\" + Environment.UserName + @"\Documents\LexiConsole\Dictionaries\";
 
                 if (!Directory.Exists(DefaultDictionaryPath))
                 {

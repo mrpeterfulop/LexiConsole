@@ -8,76 +8,40 @@ namespace LexiConsole
 {
     class Methods
         {
+            // Menüpontokat tartalmazó tömbök definiálása
             public static string[] MainMenuTags = new string[] { };
             public static string[] SubMenuTags_1 = new string[] { };
             public static string[] SubMenuTags_4 = new string[] { };
 
             public Methods()
             {
+                // Menüpontokat tartalmazó tömbök deklarálása, értékadás a konstruktor hívása közben
                 MainMenuTags = new string[] { "Kilépés", "Gyakorlás", "Új szavak bevitele", "Szótáram tartalma", "Művelet szótárakkal", "Új szótár létrehozása" };
                 SubMenuTags_1 = new string[] { "Vissza", "idegen nyelvről -> magyar nyelvre", "magyar nyelvről -> idegen nyelvre", "véletlenszerű kikérdezés" };
                 SubMenuTags_4 = new string[] { "Vissza", "Szótár létrehozása", "Szótár átnevezése", "Szótár törlése" };
             }
 
 
-            #region Visual  
-            public static void ReadLogo(int delay)
-            {
-                using (FileStream fs = new FileStream(@"mylexlogo.txt", FileMode.Open))
-                {
-                    using (StreamReader sr = new StreamReader(fs, Encoding.UTF8))
-                    {
-                        while (!sr.EndOfStream)
-                        {
-                            Console.WriteLine(sr.ReadLine());
-                            System.Threading.Thread.Sleep(delay);
-                        }
-                    }
-                }
-            }
-            public static void ShowLogo()
-            {
 
-                ReadLogo(100);
-                Console.Clear();
-                for (int i = 0; i <= 10; i++)
-                {
-                    if (Console.ForegroundColor == ConsoleColor.White)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                    }
-                    else
-                    {
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-
-                    Console.Clear();
-                    ReadLogo(0);
-                    System.Threading.Thread.Sleep(100);
-
-                }
-                Console.Clear();
-            }
-
+            // Üdvözlő szöveg, felhasználóra szabva
             public static void ShowGreeting()
             {
-                Console.WriteLine($"\n Jó napot, {Environment.UserName}!\n");
+              Console.WriteLine($"\n Jó napot, {Environment.UserName}!\n");
             }
 
-            #endregion
 
+            #region Dictionary Methods
 
-            #region General Methods
+            // Létező .csv fileok nevének kiíratása, 2 választható módon
             public static void ShowExistsDictionaries(bool list)
             {
-                Global g = new Global();
+
+            Global g = new Global();
 
                 if (list)
                 {
                     Console.WriteLine(" --------------------------------------------------------------------------------");
-
                     Console.Write(" Szótáraid:");
-
                     if (g.myDictionaries.Count == 0)
                     {
                         Console.Write($" Jeneleg nincsenek még szótáraid!");
@@ -90,24 +54,23 @@ namespace LexiConsole
                         }
                     }
                     Console.WriteLine("\n");
-
                 }
                 else
                 {
-
                     foreach (var item in g.myDictionaries)
                     {
                         Console.WriteLine($" # {g.myDictionaries.IndexOf(item) + 1} # {item}");
                     }
-
                 }
-
             }
+
+            // Szótárfájlok listából történő kiválasztása. Visszatérési érték: szótár neve
             public static string SelectDictionary(int MenuPoint)
             {
                 Global g = new Global();
                 int index = 0;
 
+                // Ha nincsenek szótárfájlok, nem t
                 if (g.myDictionaries.Count == 0 && MenuPoint != 5)
                 {
                     Console.WriteLine($" Jeneleg nincsenek még szótáraid!");
@@ -127,6 +90,7 @@ namespace LexiConsole
 
                 return null;
             }
+
             #endregion
 
 
@@ -148,6 +112,7 @@ namespace LexiConsole
 
                 SelectMainMenuMethod(MenuTag); // A MenuTag a tömb egy létező indexével tér vissza, és ezt paraméterként tovább adva hívja meg a hozzá tartozó következő metódust.
             }
+
 
             // 1. Menüpontok felépítése a csatolt tömb alapján
             public static void CreateMenu(Array arrayOfMenu)
@@ -212,15 +177,15 @@ namespace LexiConsole
                 return mainCase;
 
             }
-            ///
+
             #endregion
 
 
-            #region asd
-            /// Submenu Methods
+
+            #region Main Menu Methods
+
             public static void SelectSubMenuMethod(int mainCase, int submenuMethod)
             {
-
                 switch (mainCase)
                 {
                     case 1: // "Gyakorlás" menüponthoz tartozó metódus hívások
@@ -313,14 +278,14 @@ namespace LexiConsole
                         break;
                 }
             }
-            ///
-
 
             public static void ShowSubMenu(string MenuPoint, Array subMenuArray)
             {
-                Console.WriteLine($"\n {MenuPoint} - Kérlek add meg a menüpont sorszámát (# ? #) a továbblépéshez!");
+                Console.WriteLine($"\n {MenuPoint} -> Kérlek add meg a menüpont sorszámát (# ? #) a továbblépéshez!");
                 CreateMenu(subMenuArray);
             }
+
+
             public static void ShowFooterMenu()
             {
                 Console.WriteLine(" --------------------------------------------------------------------------------");
@@ -367,7 +332,6 @@ namespace LexiConsole
 
 
 
-
             #region MainMenu_01 Gyakorlás
             public static void Menu_Practice(int MenuPoint)
             {
@@ -409,10 +373,15 @@ namespace LexiConsole
             #region MainMenu_04 Művelet szótárakkal
             public static void Menu_DictionaryOperations(int MenuPoint)
             {
-                Console.Clear();
-                SelectDictionary(MenuPoint);
-                SelectMenuTag(SubMenuTags_4);
+
+                string name = SelectDictionary(MenuPoint);
+                ShowSubMenu(MainMenuTags[MenuPoint] + " -> " + name, SubMenuTags_4);
+
+                int MenuTag = SelectMenuTag(SubMenuTags_4);
+                SelectSubMenuMethod(MenuPoint, MenuTag);
+
                 Console.WriteLine("\n\n Itt majd valami történik....\n\n");
+
                 ShowFooterMenu();
 
             }
@@ -429,6 +398,8 @@ namespace LexiConsole
 
 
             #endregion
+
+
 
 
             #region Create Dictionary File

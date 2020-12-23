@@ -1,0 +1,37 @@
+﻿
+Főmenü
+    0 - Kilépés
+
+    1 - Gyakorlás
+
+        I.  # Szotar_betoltese()
+        II. # SubMenu_betoltese()
+                0 - Vissza
+                1 - idegen nyelvről -> magyar nyelvre
+                2 - magyar nyelvről -> idegen nyelvre
+                3 - véletlenszerű kikérdezés
+
+
+    2 - Új szavak bevitele
+        # Szotar_betoltese()
+
+
+    3 - Szótáram tartalma
+
+        # Szotar_betoltese()
+
+
+    4 - Művelet szótárakkal
+
+        # SubMenu_betoltese()
+        0 - Vissza
+        1 - Szótár létrehozása
+        2 - Szótár átnevezése
+            # Szotar_betoltese()
+
+        3 - Szótár törlése
+            # Szotar_betoltese()
+
+
+    5 - Új szótár létrehozása
+        Program_betoltese()
