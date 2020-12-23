@@ -12,7 +12,6 @@ namespace LexiConsole
             {
                 Console.Title = @"MyLex [☉ᴗ☉]";
 
-                Methods.ShowGreeting();
                 Methods.ShowMainMenuMethod();
 
                 Console.ReadLine();

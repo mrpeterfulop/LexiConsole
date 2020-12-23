@@ -51,8 +51,8 @@ namespace LexiConsole
                 {
                     Directory.CreateDirectory(DefaultDictionaryPath);
                 }
-
             }
-        }
+
+    }
     
 }
