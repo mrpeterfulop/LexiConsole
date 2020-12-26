@@ -10,10 +10,8 @@ namespace LexiConsole
     {
             static void Main(string[] args)
             {
-                Console.Title = @"MyLex [☉ᴗ☉]";
-
+                
                 Methods.ShowMainMenuMethod();
-
                 Console.ReadLine();
             }
     }

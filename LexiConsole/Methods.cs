@@ -12,12 +12,13 @@ namespace LexiConsole
         public static string[] MainMenuTags = new string[] { };
         public static string[] SubMenuTags_1 = new string[] { };
         public static string[] SubMenuTags_4 = new string[] { };
-        public static string lineChar = " --------------------------------------------------------------------------------";
+        public static string lineChar = " ----------------------------------------------------------------------------------------------------";
 
         public Methods()
         {
-        // Menüpontokat tartalmazó tömbök deklarálása, értékadás a konstruktor hívása közben
-            MainMenuTags = new string[] { "Kilépés", "Gyakorlás", "Új szavak bevitele", "Szótáram tartalma", "Művelet szótárakkal", "Új szótár létrehozása", "Összes szótáram"};
+            Console.Title = $@"Hello {Environment.UserName}! Welcome to the LexiConsol!   ¯\_(☉ᴗ☉)_/¯   [A|B]";
+            // Menüpontokat tartalmazó tömbök deklarálása, értékadás a konstruktor hívása közben
+            MainMenuTags = new string[] { "Kilépés", "Gyakorlás", "Szótáram tartalma", "Új szavak bevitele", "Művelet szótárakkal", "Új szótár létrehozása", "Összes szótáram", "Beállítások", "Frissítés"};
             SubMenuTags_1 = new string[] { "Vissza", "idegen nyelvről -> magyar nyelvre", "magyar nyelvről -> idegen nyelvre", "véletlenszerű kikérdezés" };
             SubMenuTags_4 = new string[] { "Vissza", "Szótár átnevezése", "Szótár törlése" };
         }
@@ -161,11 +162,11 @@ namespace LexiConsole
                     mainCase = 1;
                     break;
                 case 2:
-                    Menu_AddWords(2);
+                    Menu_ListOfDict(2);
                     mainCase = 2;
                     break;
                 case 3:
-                    Menu_ListOfDict(3);
+                    Menu_AddWords(3);
                     mainCase = 3;
                     break;
                 case 4:
@@ -178,6 +179,13 @@ namespace LexiConsole
                     break;
                 case 6:
                     Menu_ListOfDictionaries(6);
+                    break;
+                case 7:
+                    // Beállítások
+                    Menu_Settings(7);
+                    break;
+                case 8:
+                    ShowMainMenuMethod();
                     break;
                 case 0:
                     Environment.Exit(0);
@@ -408,8 +416,25 @@ namespace LexiConsole
 
         #endregion
 
+
+        #region MainMenu_08 Beállítások
+        public static void Menu_Settings(int MenuPoint)
+        {
+            Global g = new Global();
+
+            Console.Clear();
+            Console.WriteLine(lineChar);
+            Console.WriteLine($" {MainMenuTags[MenuPoint]}");
+            Console.WriteLine(lineChar);
+
+            Console.WriteLine("\n Fileok alapértelemzett helye:\n" + " " + g.GetDefDictionaryPath());
+            Console.WriteLine("\n Alapértelemzett kiterjesztés:\n" + " " + g.GetDefExtension());
+            ShowFooterMenu();
+        }
+
         #endregion
 
+        #endregion
 
 
         #region Write To Dictionary File
