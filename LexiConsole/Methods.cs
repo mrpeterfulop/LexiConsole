@@ -11,6 +11,7 @@ namespace LexiConsole
         // Menüpontokat tartalmazó tömbök definiálása
         public static string[] MainMenuTags = new string[] { };
         public static string[] SubMenuTags_1 = new string[] { };
+        public static string[] SubMenuTags_3 = new string[] { };
         public static string[] SubMenuTags_4 = new string[] { };
         public static string lineChar = " ----------------------------------------------------------------------------------------------------";
 
@@ -18,8 +19,9 @@ namespace LexiConsole
         {
             Console.Title = $@"Hello {Environment.UserName}! Welcome to the LexiConsol!   ¯\_(☉ᴗ☉)_/¯   [A|B]";
             // Menüpontokat tartalmazó tömbök deklarálása, értékadás a konstruktor hívása közben
-            MainMenuTags = new string[] { "Kilépés", "Gyakorlás", "Szótáram tartalma", "Új szavak bevitele", "Művelet szótárakkal", "Új szótár létrehozása", "Összes szótáram", "Beállítások", "Frissítés"};
+            MainMenuTags = new string[] { "Kilépés", "Gyakorlás", "Szótár tartalma", "Szótár szerkesztése", "Szótárműveletek", "Új szótár létrehozása", "Összes szótáram", "Beállítások", "Frissítés"};
             SubMenuTags_1 = new string[] { "Vissza", "idegen nyelvről -> magyar nyelvre", "magyar nyelvről -> idegen nyelvre", "véletlenszerű kikérdezés" };
+            SubMenuTags_3 = new string[] { "Vissza", "Szavak bevitele", "Szavak módosítása","Szavak törlése"};
             SubMenuTags_4 = new string[] { "Vissza", "Szótár átnevezése", "Szótár törlése" };
         }
 
@@ -43,6 +45,8 @@ namespace LexiConsole
             {
                 Console.WriteLine(lineChar);
                 Console.Write(" Szótáraid: ");
+
+                Console.ForegroundColor = ConsoleColor.DarkGreen;
 
                 if (g.myDictionaries.Count == 0)
                 {
@@ -71,6 +75,8 @@ namespace LexiConsole
                     Console.WriteLine($" # {g.myDictionaries.IndexOf(item) + 1} # {item}");
                 }
             }
+            Console.ForegroundColor = ConsoleColor.White;
+
         }
 
         // Szótárfájlok listából történő kiválasztása. Visszatérési érték: szótár neve
@@ -90,7 +96,11 @@ namespace LexiConsole
             {
                 Console.WriteLine($"\n {MainMenuTags[MenuPoint]} - Válaszd ki a szótár sorszámát (# ? #) a továbblépéshez!");
                 Console.WriteLine(lineChar);
+                Console.ForegroundColor = ConsoleColor.Magenta;
+
                 ShowExistsDictionaries(false);
+                Console.ForegroundColor = ConsoleColor.White;
+
                 Console.WriteLine(lineChar);
                 index = SelectDictionaryTag();
 
@@ -126,12 +136,24 @@ namespace LexiConsole
         public static void CreateMenu(Array arrayOfMenu)
         {
             Console.WriteLine(lineChar);
+            
             foreach (var item in arrayOfMenu)
             {
+
+                if ((Array.IndexOf(arrayOfMenu, item)) % 2 == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                }
+
                 Console.WriteLine($" # {Array.IndexOf(arrayOfMenu, item)} # {item}");
             }
-            Console.WriteLine(lineChar);
 
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(lineChar);
         }
 
         // 2. Menüponthoz tartozó index lekérdezése
@@ -166,7 +188,7 @@ namespace LexiConsole
                     mainCase = 2;
                     break;
                 case 3:
-                    Menu_AddWords(3);
+                    Menu_EditDictionaries(3);
                     mainCase = 3;
                     break;
                 case 4:
@@ -181,7 +203,6 @@ namespace LexiConsole
                     Menu_ListOfDictionaries(6);
                     break;
                 case 7:
-                    // Beállítások
                     Menu_Settings(7);
                     break;
                 case 8:
@@ -194,9 +215,7 @@ namespace LexiConsole
                 ShowMainMenuMethod();
                 break;
         }
-
             return mainCase;
-
         }
 
         #endregion
@@ -300,8 +319,13 @@ namespace LexiConsole
         public static void ShowFooterMenu()
         {
             Console.WriteLine(lineChar);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
+
             Console.WriteLine(" # 0 # Kilépés\n # 1 # Vissza a főmenübe");
+            Console.ForegroundColor = ConsoleColor.White;
+
             Console.WriteLine(lineChar);
+
             Console.Write(" Választott menüpont: ");
 
             var userInput = Console.ReadLine();
@@ -357,12 +381,23 @@ namespace LexiConsole
         }
         #endregion
 
-        #region MainMenu_02 Új szavak bevitele
-        public static void Menu_AddWords(int MenuPoint)
+        #region MainMenu_02 Szótár szerkesztése
+        public static void Menu_EditDictionaries(int MenuPoint)
         {
             Console.Clear();
-            SelectDictionary(MenuPoint);
-            Console.WriteLine("\n\n Itt majd valami történik....\n\n");
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n Lehetséges műveletek [Új szavak bevitele | Szavak módosítása | Szavak törlése]");
+            Console.ForegroundColor = ConsoleColor.White;
+
+            string dictionaryName = SelectDictionary(MenuPoint);
+
+            Console.Clear();
+            ShowSubMenu(MainMenuTags[MenuPoint] + " -> " + dictionaryName, SubMenuTags_3);
+
+            int MenuTag = SelectMenuTag(SubMenuTags_3);
+
+            SelectSubMenuMethod(MenuPoint, MenuTag, dictionaryName);
+
             ShowFooterMenu();
         }
         #endregion
@@ -381,6 +416,10 @@ namespace LexiConsole
         public static void Menu_DictionaryOperations(int MenuPoint)
         {
             Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Cyan;
+            Console.WriteLine("\n Lehetséges műveletek [Szótár átnevezése | Szótár törlése]");
+            Console.ForegroundColor = ConsoleColor.White;
+
             string dictionaryName = SelectDictionary(MenuPoint);
 
             Console.Clear();
@@ -435,7 +474,6 @@ namespace LexiConsole
         #endregion
 
         #endregion
-
 
         #region Write To Dictionary File
         public static void WriteToDictionaryFile(string DictionaryFile)
