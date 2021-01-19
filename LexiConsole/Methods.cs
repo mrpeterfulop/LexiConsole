@@ -98,8 +98,10 @@ namespace LexiConsole
             {
                 Console.WriteLine($"\n {MainMenuTags[MenuPoint]} - Válaszd ki a szótár sorszámát (# ? #) a továbblépéshez!");
                 Console.WriteLine(lineChar);
+                
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.WriteLine(" # 0 # Vissza");
                 Console.ForegroundColor = ConsoleColor.Magenta;
-
                 ShowExistsDictionaries(false);
                 Console.ForegroundColor = ConsoleColor.White;
 
@@ -340,7 +342,12 @@ namespace LexiConsole
             Console.Write(" Választott szótár: ");
             var dictTag = Console.ReadLine();
 
-            while (!int.TryParse(dictTag, out int a) || int.Parse(dictTag) > g.myDictionaries.Count() || dictTag == "0")
+            if (dictTag == "0")
+	        {
+                ShowMainMenuMethod();
+	        }
+
+            while (!int.TryParse(dictTag, out int a) || int.Parse(dictTag) > g.myDictionaries.Count())
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(" Hiba! Nem létező szám!");
@@ -479,7 +486,9 @@ namespace LexiConsole
             loadActiveDictionaryItems();
             int index = selectIndexFromDictionary();
             splitItemToEdit(index, DictionaryFile);
-            selectKeyOrValue();
+
+            refreshActiveListFile(DictionaryFile);
+   
 
         }
 
@@ -488,6 +497,7 @@ namespace LexiConsole
 
             Console.Clear();
             var selected = activeDictionary.ElementAt(index);
+            int selectedIndex = index;
 
             string selectedKey = selected.Key;
             string selectedValue = selected.Value;
@@ -516,36 +526,63 @@ namespace LexiConsole
                 userInput = Console.ReadLine();
             }
 
-            if (userInput == "0")
-            {
+            switch (int.Parse(userInput))
+	        {
+                case 0:
                 Console.Clear();
                 editDictionaryItemMethod(DictionaryFile);
-            }
+                break;
 
-            if (userInput == "1")
-            {
-                Console.WriteLine(" kulcs: " + selectedKey);
-                // A szópár kulcs értékét módosítja
-            }
+                case 1:
+                editCurrentValue(selectedKey, 1, selectedIndex);
+                break;
 
-            if (userInput == "2")
-            {
-                Console.WriteLine(" érték: " + selectedValue);
-                 // A szópár value értékét módosítja
-            }
+                case 2: 
+                editCurrentValue(selectedValue, 2, selectedIndex);
+                break;
+
+		        default:
+                break;
+	        }
 
             Console.WriteLine(lineChar);
-
         }
 
 
-        public static void selectKeyOrValue(){
-                
-        }
-
-
-        public static void editCurrentValue(){
+        public static void editCurrentValue(string input, int index, int selectedIndex) {
             
+            Console.Write($" A(z) {input} kifejezés új értéke: ");
+           
+            string userInput = Console.ReadLine();
+            bool next = KeyValueCheckerMethod(userInput);
+
+            while (next)
+	        {
+                 Console.Write($" A(z) '{input}' kifejezés új értéke: ");
+                 userInput = Console.ReadLine();
+                 next = KeyValueCheckerMethod(userInput);
+            }
+
+            Console.WriteLine(" Módosítási fázis");
+
+            var oldData = activeDictionary.ElementAt(selectedIndex);
+
+            switch (index)
+	        {
+                case 1: 
+                    activeDictionary.Remove(oldData.Key);
+                    activeDictionary.Add(userInput,oldData.Value);
+                break;
+
+                case 2:
+                    activeDictionary.Remove(oldData.Key);
+                    activeDictionary.Add(oldData.Key,userInput);
+                break;
+
+		        default:
+                break;
+	        }
+
         }
 
 
@@ -673,6 +710,7 @@ namespace LexiConsole
 
             string filePath = DefineDictionary(DictionaryFile);
 
+            Console.WriteLine("Lista hossza: " + activeDictionary.Count);
 
             if (activeDictionary.Count == 0)
             {
@@ -680,8 +718,10 @@ namespace LexiConsole
             }
             else
             {
+                Console.WriteLine("Ennek kéne lefutni");
                 File.AppendAllText(filePath, $"\n{newDoublet}", Encoding.UTF8);
             }
+
 
             Console.WriteLine(lineChar);
             Console.WriteLine($" A '{newDoublet}' szópár bekerült a(z) '{DictionaryFile}' szótárba!");
@@ -752,6 +792,7 @@ namespace LexiConsole
                 refreshActiveListFile(DictionaryFile);
                 deleteMethodRepeat(DictionaryFile);
             }
+
         }
 
         public static void loadActiveDictionaryItems()
@@ -807,7 +848,6 @@ namespace LexiConsole
             }
 
             index = int.Parse(userInput) - 1;
-
             return index;
         }
 
@@ -834,7 +874,6 @@ namespace LexiConsole
                 Console.WriteLine(lineChar);
                 Console.WriteLine($" A következő szópár '{selected}' törlésre került! Mit szeretnél tenni?");
                 Console.WriteLine(lineChar);
-
                 refresh = true;
             }
 
@@ -1297,7 +1336,7 @@ namespace LexiConsole
                     }
 
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
 
                     Console.WriteLine("\n Hiba történt az átnevezés közben!");
