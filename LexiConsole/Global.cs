@@ -9,6 +9,8 @@ namespace LexiConsole
             public List<string> myDictionaries = new List<string>();
             private string DefaultExtension { get; set; }
             private string DefaultDictionaryPath { get; set; }
+            private string DefaultScorePath { get; set; }
+
 
             public Global()
             {
@@ -42,15 +44,28 @@ namespace LexiConsole
             {
                 return DefaultDictionaryPath;
             }
+        
+            public string GetDefaultScorePath()
+            {
+                return DefaultScorePath;
+            }
 
             private void SetDefDictionaryPath()
             {
                 DefaultDictionaryPath = Path.GetPathRoot(Environment.SystemDirectory) + @"Users\" + Environment.UserName + @"\Documents\LexiConsole\Dictionaries\";
+                DefaultScorePath = Path.GetPathRoot(Environment.SystemDirectory) + @"Users\" + Environment.UserName + @"\Documents\LexiConsole\Dictionaries\Scores\";
 
-                if (!Directory.Exists(DefaultDictionaryPath))
+
+                if(!Directory.Exists(DefaultDictionaryPath))
                 {
                     Directory.CreateDirectory(DefaultDictionaryPath);
                 }
+
+                if (!Directory.Exists(DefaultScorePath))
+                {
+                    Directory.CreateDirectory(DefaultScorePath);
+                }
+
             }
 
     }

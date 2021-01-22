@@ -10,8 +10,7 @@ namespace LexiConsole
     {
             static void Main(string[] args)
             {
-
-            Methods.ShowMainMenuMethod();
+                Methods.ShowMainMenuMethod();
             }
     }
     
