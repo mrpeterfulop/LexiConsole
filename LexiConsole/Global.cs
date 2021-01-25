@@ -12,6 +12,7 @@ namespace LexiConsole
             private string DefaultScorePath { get; set; }
 
 
+
             public Global()
             {
                 SetDefDictionaryPath();
