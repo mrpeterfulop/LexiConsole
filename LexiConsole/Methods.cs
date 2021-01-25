@@ -42,7 +42,6 @@ namespace LexiConsole
         public static string lineChar = " ----------------------------------------------------------------------------------------------------";
         public static string lineChar2 = " ====================================================================================================";
 
-
         public Methods()
         {
             Console.Title = $@"Hello {Environment.UserName}! Welcome to the LexiConsol!   ¯\_(☉ᴗ☉)_/¯   [A|B]";

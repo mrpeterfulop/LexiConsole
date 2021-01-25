@@ -5,7 +5,6 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace LexiConsole
 {
-
     class Program
     {
             static void Main(string[] args)
