@@ -6,27 +6,6 @@ using System.Text;
 
 namespace LexiConsole
 {
-    class Scores
-    {
-
-        private DateTime date;
-        private string lexicon;
-        private string score;
-        private string failedWords;
-
-        public Scores(DateTime date, string lexicon, string score, string failedWords)
-        {
-            Date = date;
-            Lexicon = lexicon;
-            Score = score;
-            FailedWords = failedWords;
-        }
-
-        public DateTime Date { get => date; set => date = value; }
-        public string Lexicon { get => lexicon; set => lexicon = value; }
-        public string Score { get => score; set => score = value; }
-        public string FailedWords { get => failedWords; set => failedWords = value; }
-    }
 
     class Methods
     {
@@ -34,25 +13,16 @@ namespace LexiConsole
         public static Dictionary<string, string> activeDictionary = new Dictionary<string, string>();
         public static List<Scores> Scores = new List<Scores>();
 
-        public static string[] MainMenuTags = new string[] { };
-        public static string[] SubMenuTags_1 = new string[] { };
-        public static string[] SubMenuTags_1_1 = new string[] { };
-        public static string[] SubMenuTags_3 = new string[] { };
-        public static string[] SubMenuTags_4 = new string[] { };
         public static string lineChar = " ----------------------------------------------------------------------------------------------------";
         public static string lineChar2 = " ====================================================================================================";
 
-        public Methods()
-        {
-            Console.Title = $@"Hello {Environment.UserName}! Welcome to the LexiConsol!   ¯\_(☉ᴗ☉)_/¯   [A|B]";
-            // Menüpontokat tartalmazó tömbök deklarálása, értékadás a konstruktor hívása közben
-            MainMenuTags = new string[] { "Kilépés", "Gyakorlás", "Szótár tartalma", "Szótár szerkesztése", "Művelet szótárakkal", "Új szótár létrehozása", "Összes szótáram", "Rendszerbeállítások","Mentett eredmények", "Frissítés"};
-            SubMenuTags_1 = new string[] { "Vissza", "idegen nyelvről -> magyar nyelvre", "magyar nyelvről -> idegen nyelvre", "véletlenszerű kikérdezés" };
-            SubMenuTags_1_1 = new string[] { "Vissza", "Minden szó 1x", "Futás megszakításig" };
-            SubMenuTags_3 = new string[] { "Vissza", "Szavak bevitele", "Szavak módosítása","Szavak törlése"};
-            SubMenuTags_4 = new string[] { "Vissza", "Szótár átnevezése", "Szótár törlése" };
+      // Menüpontokat tartalmazó tömbök deklarálása, értékadás a konstruktor hívása közben
+        public static string[] MainMenuTags = new string[] { "Kilépés", "Gyakorlás", "Szótár tartalma", "Szótár szerkesztése", "Művelet szótárakkal", "Új szótár létrehozása", "Összes szótáram", "Rendszer beállítások","Mentett eredmények", "Frissítés"};
+        public static string[]  SubMenuTags_1 = new string[] { "Vissza", "idegen nyelvről > magyar nyelvre", "magyar nyelvről > idegen nyelvre", "véletlenszerű kikérdezés" };
+        public static string[]  SubMenuTags_1_1 = new string[] { "Vissza", "Minden szó 1x", "Futás megszakításig" };
+        public static string[]  SubMenuTags_3 = new string[] { "Vissza", "Szavak bevitele", "Szavak módosítása", "Szavak törlése" };
+        public static string[]  SubMenuTags_4 = new string[] { "Vissza", "Szótár átnevezése", "Szótár törlése" };
 
-        }
 
         public static void ShowGreeting()
         {
@@ -150,6 +120,34 @@ namespace LexiConsole
             return null;
         }
 
+
+        public static int SelectDictionaryTag()
+        {
+            Global g = new Global();
+            Console.Write(" Választott szótár: ");
+            var dictTag = Console.ReadLine();
+
+            while (!int.TryParse(dictTag, out int a) || int.Parse(dictTag) > g.myDictionaries.Count() || int.Parse(dictTag) < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" Hiba! Nem létező szám!");
+                Console.ForegroundColor = ConsoleColor.White;
+
+                Console.Write(" Választott szótár: ");
+                dictTag = Console.ReadLine();
+            }
+
+            if (dictTag == "0")
+            {
+                ShowMainMenuMethod();
+            }
+
+            
+
+            return int.Parse(dictTag);
+        }
+
+
         #endregion
 
         #region Main Menu Settings
@@ -157,9 +155,11 @@ namespace LexiConsole
         // 0. Main Menu teljes metódus
         public static void ShowMainMenuMethod()
         {
+            Console.Title = $@"Hello {Environment.UserName}! Welcome to the LexiC#onsol!   ¯\_(☉ᴗ☉)_/¯   [A|B]";
+
             Console.Clear();
+
             ShowGreeting();
-            Methods m = new Methods(); // Methods osztály konstruktor hívása minden alkalommal, amikor betölt a függvény. (Ezáltal mindig létrejönnek a menüpontokat tartalamzó tömbök)
 
             ShowExistsDictionaries(true); // Aktuális szótárak betöltése, ha vannak. par.: true > A lista elrendezési módja: egy soros.  
 
@@ -206,12 +206,11 @@ namespace LexiConsole
             var menuTag = Console.ReadLine();
 
 
-            while (!int.TryParse(menuTag, out int a) || int.Parse(menuTag) > menuArray.Length - 1)
+            while (!int.TryParse(menuTag, out int a) || int.Parse(menuTag) > menuArray.Length - 1 || int.Parse(menuTag) < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(" Hiba! Nem létező szám!");
                 Console.ForegroundColor = ConsoleColor.White;
-
                 Console.Write(" Választott menüpont: ");
                 menuTag = Console.ReadLine();
             }
@@ -220,30 +219,24 @@ namespace LexiConsole
         }
 
         // 3. Menüponthoz tartozó metódusok hívása, a kapott index alapján
-        public static int SelectMainMenuMethod(int submenuTag)
+        public static void SelectMainMenuMethod(int menuTag)
         {
-            var mainCase = 0;
-            switch (submenuTag)
+            switch (menuTag)
             {
                 case 1:
                     Menu_Practice(1);
-                    mainCase = 1;
                     break;
                 case 2:
                     Menu_ListOfDict(2);
-                    mainCase = 2;
                     break;
                 case 3:
                     Menu_EditDictionaries(3);
-                    mainCase = 3;
                     break;
                 case 4:
                     Menu_DictionaryOperations(4);
-                    mainCase = 4;
                     break;
                 case 5:
                     Menu_CreateDictionary(5);
-                    mainCase = 5;
                     break;
                 case 6:
                     Menu_ListOfDictionaries(6);
@@ -263,88 +256,86 @@ namespace LexiConsole
                 default:
                 ShowMainMenuMethod();
                 break;
+            }
         }
-            return mainCase;
-        }
+
 
         #endregion
 
         #region Main Menu Methods
-        public static void SelectSubMenuMethod(int mainCase, int submenuMethod, string dictionaryName)
+        public static void SelectSubMenuMethod(int mainMenuTag, int subMenuTag, string dictionaryName)
             {
-                switch (mainCase)
-                    {
-
-                case 1:
-                    switch (submenuMethod)
-                    {
-                        case 0: // FŐMENÜ!
-                            Console.Clear();
-                            ShowMainMenuMethod();
-                            break;
-                        default:
-                            LoadExcerciseMethod(mainCase, submenuMethod, dictionaryName);
-                            break;
-                    }
-                    break;
-
-                case 2:
-                    switch (submenuMethod)
-                    {
-                        case 1: // Gyakorlás, 1-es menüpont
-                            EditDictionaryItemMethod(dictionaryName);
-                            break;
-                        case 2: // Gyakorlás, 2-es menüpont
-                            DeleteFromDictionaryFileMethod(dictionaryName);
-                            break;
-                        case 3: // Gyakorlás, 3-as menüpont
-                            DeleteFromDictionaryFileMethod(dictionaryName);
-                            break;
-                        case 0: // FŐMENÜ!
-                            Console.Clear();
-                            ShowMainMenuMethod();
-                            break;
-                    }
-                    break;
-
-                    case 3: // "Szótár szerkesztése" menüponthoz tartozó metódus hívások
-                        switch (submenuMethod)
+                switch (mainMenuTag)
+                {
+                    case 1:
+                        switch (subMenuTag)
                         {
-                            case 1: // "Szótár szerkesztése" - Szavak bevitele
-                            WriteToDictionaryFileMethod(dictionaryName);
+                            case 0:
+                                Console.Clear();
+                                ShowMainMenuMethod();
+                                break;
+                            default:
+                               LoadExcerciseMethod(mainMenuTag, subMenuTag, dictionaryName);
                             break;
-                            case 2: // "Szótár szerkesztése"- Szavak szerkesztése
-                            EditDictionaryItemMethod(dictionaryName);
-                            break;
-                            case 3: // "Szótár szerkesztése"- Szavak törlése
-                            DeleteFromDictionaryFileMethod(dictionaryName);
-                            break;
-                            case 0: // FŐMENÜ!
+                        }
+                        break;
+
+                    case 2:
+                        switch (subMenuTag)
+                        {
+                            case 1: 
+                                EditDictionaryItemMethod(dictionaryName);
+                                break;
+                            case 2: 
+                                DeleteFromDictionaryFileMethod(dictionaryName);
+                                break;
+                            case 0: 
                                 Console.Clear();
                                 ShowMainMenuMethod();
                                 break;
                         }
                         break;
 
-                    case 4: // "Művelet a szótárakkal" menüponthoz tartozó metódus hívások
-                        switch (submenuMethod)
+                    case 3: 
+                        switch (subMenuTag)
                         {
-                            case 1: // Szótár átnevezése
-                            RenameDictionaryFileMethod(dictionaryName, MainMenuTags[mainCase] + " -> " + SubMenuTags_4[submenuMethod]);
-                                break;
-
-                            case 2: // Szótár törlése
-                            DeleteDictionaryFileMethod(dictionaryName, MainMenuTags[mainCase] + " -> " + SubMenuTags_4[submenuMethod]);
-                                break;
-
-                            case 0: // FŐMENÜ!
+                            case 1: 
+                            WriteToDictionaryFileMethod(dictionaryName);
+                            break;
+                            case 2: 
+                            EditDictionaryItemMethod(dictionaryName);
+                            break;
+                            case 3: 
+                            DeleteFromDictionaryFileMethod(dictionaryName);
+                            break;
+                            case 0: 
                                 Console.Clear();
                                 ShowMainMenuMethod();
                                 break;
                         }
+                        break;
+
+                    case 4: 
+                        switch (subMenuTag)
+                        {
+                            case 1: 
+                            RenameDictionaryFileMethod(dictionaryName, MainMenuTags[mainMenuTag] + " -> " + SubMenuTags_4[subMenuTag]);
+                                break;
+
+                            case 2: 
+                            DeleteDictionaryFileMethod(dictionaryName, MainMenuTags[mainMenuTag] + " -> " + SubMenuTags_4[subMenuTag]);
+                                break;
+
+                            case 0: 
+                                Console.Clear();
+                                ShowMainMenuMethod();
+                                break;
+                        }
+
                         break;
                 }
             }
+
         public static void ShowSubMenu(string MenuPoint, Array subMenuArray)
         {
             Console.WriteLine($"\n {MenuPoint} -> Kérlek add meg a menüpont sorszámát [?] a továbblépéshez!");
@@ -365,7 +356,7 @@ namespace LexiConsole
 
             var userInput = Console.ReadLine();
 
-            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > 1)
+            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > 1 || int.Parse(userInput) < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(" Hiba! Nem létező szám!");
@@ -386,29 +377,7 @@ namespace LexiConsole
             }
 
         }
-        public static int SelectDictionaryTag()
-        {
-            Global g = new Global();
-            Console.Write(" Választott szótár: ");
-            var dictTag = Console.ReadLine();
-
-            if (dictTag == "0")
-	        {
-                ShowMainMenuMethod();
-	        }
-
-            while (!int.TryParse(dictTag, out int a) || int.Parse(dictTag) > g.myDictionaries.Count())
-            {
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(" Hiba! Nem létező szám!");
-                Console.ForegroundColor = ConsoleColor.White;
-
-                Console.Write(" Választott szótár: ");
-                dictTag = Console.ReadLine();
-            }
-
-            return int.Parse(dictTag);
-        }
+        
 
 
         #region MainMenu_01 Gyakorlás
@@ -417,13 +386,24 @@ namespace LexiConsole
             Console.Clear();
             string dictionaryName = SelectDictionary(MenuPoint);
 
-            Console.Clear();
-            ShowSubMenu(MainMenuTags[MenuPoint] + " -> " + dictionaryName, SubMenuTags_1);
+            ReadDataFromFile(dictionaryName);
 
-            int MenuTag = SelectMenuTag(SubMenuTags_1);
-            SelectSubMenuMethod(MenuPoint, MenuTag, dictionaryName);
+            if (activeDictionary.Count <= 2)
+            {
+                Console.Clear();
+                Console.WriteLine($"\n Túl kevés elem [{activeDictionary.Count}] van {dictionaryName} szótárban, sajnos nem tudsz még gyakorolni!");
+            }
+            else
+            {
+                Console.Clear();
+                ShowSubMenu(MainMenuTags[MenuPoint] + " -> " + dictionaryName, SubMenuTags_1);
+                int MenuTag = SelectMenuTag(SubMenuTags_1);
+                SelectSubMenuMethod(MenuPoint, MenuTag, dictionaryName);
+                ShowFooterMenu();
+            }
 
             ShowFooterMenu();
+
         }
         #endregion
 
@@ -510,24 +490,95 @@ namespace LexiConsole
         {
             Console.Clear();
             Console.WriteLine(lineChar2);
-            Console.WriteLine(" Mentett eredmények ");
+            Console.WriteLine(" Mentett eredmények > Válassz egy listaelemet [?] a részletes nézethez!");
             Console.WriteLine(lineChar2);
 
             LoadScoreFile();
 
-            var index = 1;
 
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            foreach (var item in Scores)
-            {
-
-                Console.WriteLine($" [{index}] | {item.Date} | Lexicon: {item.Lexicon} | Score: {item.Score} | Failed: {item.FailedWords}");
-                index++;
-            }
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(" [0] Vissza a főmenübe");
             Console.ForegroundColor = ConsoleColor.White;
 
-            ShowFooterMenu();
+            Console.ForegroundColor = ConsoleColor.DarkGray;
 
+            var index = 1;
+
+            foreach (var item in Scores)
+            {
+                string[] puffer = item.FailedWords.Split('|');
+
+                Console.WriteLine($" [{index}] | {item.Date} | {item.Lexicon} | {item.Score} | [{puffer.Length}]");
+                index++;
+            }
+
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.WriteLine(lineChar);
+            Console.Write(" Választott menüpont: ");
+
+            var userInput = Console.ReadLine();
+
+            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > Scores.Count || int.Parse(userInput) < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" Hiba! Nem létező szám!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" Választott menüpont: ");
+                userInput = Console.ReadLine();
+            }
+
+            if (userInput == "0")
+            {
+                Console.Clear();
+                ShowMainMenuMethod();
+            }
+
+            else
+            {
+
+                var listIndex = int.Parse(userInput)-1;
+                Console.Clear();
+                Console.WriteLine(lineChar2);
+                Console.WriteLine(" Mentett eredmények > Eredmény részletei");
+                Console.WriteLine(lineChar2);
+                string[] puffer = Scores[listIndex].FailedWords.Split('|');
+
+                Console.ForegroundColor = ConsoleColor.DarkGray;
+                Console.WriteLine($"\n ID: [{listIndex+1}]");
+                Console.WriteLine($" Dátum: {Scores[listIndex].Date}");
+                Console.WriteLine($" Szótár: {Scores[listIndex].Lexicon}");
+                Console.WriteLine($" Pontok: {Scores[listIndex].Score}");
+
+                Console.WriteLine($" Hibázott kifejezések: [{puffer.Length}]");
+                int counter = 0;
+
+                if (puffer.Length >= 5)
+                {
+
+                    for (int i = 0; i < puffer.Length; i++)
+                    {
+
+                        Console.Write(" | " + puffer[i]);
+                        counter++;
+
+                        if (counter == 5)
+                        {
+                            Console.WriteLine();
+                            counter = 0;
+                        }
+                    }
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.WriteLine(" " + string.Join(" | ", puffer));
+                }
+
+                Console.ForegroundColor = ConsoleColor.White;
+
+                ShowFooterMenu();
+            }
         }
 
         #endregion
@@ -558,46 +609,24 @@ namespace LexiConsole
         public static void LoadExcerciseMethod(int mainCase, int typeOfExcercise, string dictionaryName)
         {
 
-            Console.Clear();
-            ReadDataFromFile(dictionaryName);
+            
 
-            Console.WriteLine($"\n {MainMenuTags[mainCase]} -> {dictionaryName} -> {SubMenuTags_1[typeOfExcercise]}");
+                Console.Clear();
+                ReadDataFromFile(dictionaryName);
 
-            CreateMenu(SubMenuTags_1_1);
-            int typeOfRepeat = SelectMenuTag(SubMenuTags_1_1);
+                    Console.WriteLine($"\n {MainMenuTags[mainCase]} -> {dictionaryName} -> {SubMenuTags_1[typeOfExcercise]}  -> Add meg, meddig gyakorolsz! [?]");
 
-            if (typeOfRepeat != 0)
-            {
-                StartExcercise(dictionaryName, typeOfExcercise, typeOfRepeat);
-            }
-            else
-            {
-                Menu_Practice(mainCase);
-            }
+                    CreateMenu(SubMenuTags_1_1);
+                    int typeOfRepeat = SelectMenuTag(SubMenuTags_1_1);
 
-        }
-
-        public static void SelectTypeOfExcercise(string dictionaryName, int typeOfRepeat, int typeOfExcercise)
-        {
-
-            // typeOfExcercise = { "idegen nyelvről -> magyar nyelvre", "magyar nyelvről -> idegen nyelvre", "véletlenszerű kikérdezés" };
-            // typeOfRepeat = { "Minden szó 1x", "Futás megszakításig" };
-
-
-            switch (typeOfExcercise)
-            {
-                case 1: // idegen nyelvről -> magyar nyelvre
-                    break;
-
-                case 2: // magyar nyelvről -> idegen nyelvre
-                    //ExcerciseType_Own_Foreign(2, typeOfRepeat);
-                    break;
-
-                case 3: // véletlenszerű kikérdezés
-                    //ExcerciseType_Random(2, typeOfRepeat);
-                    break;
-
-            }
+                    if (typeOfRepeat != 0)
+                    {
+                        StartExcercise(dictionaryName, typeOfExcercise, typeOfRepeat);
+                    }
+                    else
+                    {
+                        Menu_Practice(mainCase);
+                    }
 
 
         }
@@ -621,7 +650,7 @@ namespace LexiConsole
             {
                 
                 Console.Clear();
-                Console.WriteLine($"\n Gyakorlás > {dictionaryName} > {SubMenuTags_1[typeOfExcercise]} > {SubMenuTags_1_1[typeOfRepeat]}");
+                Console.WriteLine($"\n Gyakorlás -> {dictionaryName} -> {SubMenuTags_1[typeOfExcercise]} -> {SubMenuTags_1_1[typeOfRepeat]}");
                 Console.WriteLine(lineChar);
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine(" [0] Kilépés");
@@ -707,7 +736,7 @@ namespace LexiConsole
 
                     Console.WriteLine($"\n Gyakorlás > {dictionaryName} > {SubMenuTags_1[typeOfExcercise]} > {SubMenuTags_1_1[typeOfRepeat]}");
                     Console.WriteLine(lineChar);
-                    Console.WriteLine(" [0] Kilépés\n [1] Következő szó");
+                    Console.WriteLine(" [0] Vissza a főmenübe! \n [1] Következő szó");
                     Console.WriteLine(lineChar);
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine($" Keresett kifejezés: {searchFor} ");
@@ -715,6 +744,7 @@ namespace LexiConsole
                     Console.WriteLine($" Szótári megfelelő: {solution}");
 
                     string match;
+
 
                     if (answer == solution)
                     {
@@ -742,12 +772,14 @@ namespace LexiConsole
                         Console.Clear();
                         ShowMainMenuMethod();
                     }
+                    
                     if (next == "1")
                     {
-                        
-                    }
 
-                    while (next != "0" && next != "1")
+                    }
+                    
+
+                    while (!int.TryParse(next, out int a) || int.Parse(next) > 1 || int.Parse(next) < 0)
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine(" Helytelen válasz!");
@@ -766,6 +798,7 @@ namespace LexiConsole
                             
                         }
                     }
+
                     
                 }
 
@@ -790,6 +823,16 @@ namespace LexiConsole
             Console.Write(" Választott menüpont: ");
             string exportAnswer = Console.ReadLine();
 
+
+            while (!int.TryParse(exportAnswer, out int a) || int.Parse(exportAnswer) > 1 || int.Parse(exportAnswer) < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" Hiba! Nem létező szám!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" Választott menüpont: ");
+                exportAnswer = Console.ReadLine();
+            }
+
             if (exportAnswer == "0")
             {
 
@@ -808,7 +851,7 @@ namespace LexiConsole
             LoadScoreFile();
 
             DateTime today = DateTime.Now;
-            var dataLine = $"{today};{dictionaryName};{score}/{WordCount};{string.Join(", ",Failed)}";
+            var dataLine = $"{today};{dictionaryName};{score}/{WordCount};{string.Join("|",Failed)}";
 
   
             if (Scores.Count == 0)
@@ -883,7 +926,7 @@ namespace LexiConsole
         {
             Console.Clear();
             ReadDataFromFile(DictionaryFile);
-            LoadActiveDictionaryItems();
+            LoadActiveDictionaryItems(DictionaryFile);
             int index = SelectIndexFromDictionary();
             SplitItemToEdit(index, DictionaryFile);
             RefreshActiveListFile(DictionaryFile);
@@ -919,7 +962,7 @@ namespace LexiConsole
             Console.Write(" Választott menüpont: ");
             var userInput = Console.ReadLine();
 
-            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > 2)
+            while (!(int.TryParse(userInput, out int a)) || int.Parse(userInput) > 2 || int.Parse(userInput) < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(" Hiba! Nem létező szám!");
@@ -954,17 +997,30 @@ namespace LexiConsole
 
         public static void EditCurrentValue(string input, int index, int lineIndex) {
 
-            Console.Write($" A(z) '{input}' kifejezés új értéke: ");
-           
-            string userInput = Console.ReadLine();
-            bool next = KeyValueCheckerMethod(userInput);
-
-            while (next)
-	        {
+            string userInput;
+            bool next;
+            Console.Clear();
+            do
+            {
+                 Console.WriteLine(lineChar);
                  Console.Write($" A(z) '{input}' kifejezés új értéke: ");
-                 userInput = Console.ReadLine();
+                 userInput = Console.ReadLine().Trim();
                  next = KeyValueCheckerMethod(userInput);
-            }
+
+            } while (next);
+
+
+
+         //   Console.Write($" A(z) '{input}' kifejezés új értéke: ");
+         //   string userInput = Console.ReadLine();
+         //   bool next = KeyValueCheckerMethod(userInput);
+
+         //   while (next)
+	        //{
+         //        Console.Write($" A(z) '{input}' kifejezés új értéke: ");
+         //        userInput = Console.ReadLine();
+         //        next = KeyValueCheckerMethod(userInput);
+         //   }
 
             var oldData = activeDictionary.ElementAt(lineIndex);
 
@@ -986,7 +1042,7 @@ namespace LexiConsole
 
             Console.Clear();
             Console.WriteLine(lineChar);
-            Console.WriteLine($" A(z) '{input}' tartalom új megfelelője '{userInput}' sikeresen frissítve! Mit szeretnél tenni?");
+            Console.WriteLine($" A(z) '{input}' kifejezés új megfelelője '{userInput}' sikeresen frissítve! Mit szeretnél tenni?");
 
         }
 
@@ -1005,7 +1061,7 @@ namespace LexiConsole
 
             var userInput = Console.ReadLine();
 
-            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > 2)
+            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > 2 || int.Parse(userInput) < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(" Hiba! Nem létező szám!");
@@ -1097,11 +1153,11 @@ namespace LexiConsole
 
                 if (valueOfInput.Length > 0)
                 {
-                    Console.WriteLine($" Hiba! A bevitt érték '{userInput}' már szerelep a szótárban, mint '{valueOfInput}'!");
+                    Console.WriteLine($" Hiba! A bevitt érték '{userInput}' már szerepel a szótárban, mint '{valueOfInput}'!");
                 }
                 if (keyOfInput.Length > 0)
                 {
-                    Console.WriteLine($" Hiba! A bevitt érték '{userInput}' már szerelep a szótárban, mint '{keyOfInput}'!");
+                    Console.WriteLine($" Hiba! A bevitt érték '{userInput}' már szerepel a szótárban, mint '{keyOfInput}'!");
                 }
                 Console.WriteLine(lineChar);
                 Console.ForegroundColor = ConsoleColor.White;
@@ -1194,13 +1250,13 @@ namespace LexiConsole
             ReadDataFromFile(DictionaryFile);
 
             // Aktuális szótárfile tartalmának listázása
-            LoadActiveDictionaryItems();
+            LoadActiveDictionaryItems(DictionaryFile);
 
             // Sor kiválasztása a szótárból
             int index = SelectIndexFromDictionary();
 
 
-            bool refresh = RemoveItemfromActiveList(index);
+            bool refresh = RemoveItemfromActiveList(index, DictionaryFile);
 
             if (refresh)
             {
@@ -1216,10 +1272,10 @@ namespace LexiConsole
 
         }
 
-        public static void LoadActiveDictionaryItems()
+        public static void LoadActiveDictionaryItems(string DictionaryFile)
         {
             Console.WriteLine(lineChar);
-            Console.WriteLine(" Válaszd ki a módosítani kívánt elem sorszámát [?] a továbblépéshez!");
+            Console.WriteLine($" {DictionaryFile} > Válaszd ki a módosítani kívánt elem sorszámát [?] a továbblépéshez!");
             Console.WriteLine(lineChar);
 
             Console.ForegroundColor = ConsoleColor.Red;
@@ -1251,7 +1307,7 @@ namespace LexiConsole
                 ShowMainMenuMethod();
             }
 
-            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > activeDictionary.Count)
+            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > activeDictionary.Count || int.Parse(userInput) < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(lineChar);
@@ -1272,20 +1328,34 @@ namespace LexiConsole
             return index;
         }
 
-        public static bool RemoveItemfromActiveList(int index)
+        public static bool RemoveItemfromActiveList(int index, string DictionaryFile)
         {
             var selected = activeDictionary.ElementAt(index);
 
             bool refresh = false;
 
+            Console.Clear();
+            Console.WriteLine(lineChar);
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine(lineChar);
-            Console.WriteLine($"  A következő sor '{selected}' törlésére készülsz! Biztosan törölni szeretnéd?\n [0] NEM\n [1] IGEN");
-            Console.WriteLine(lineChar);
+            Console.WriteLine($" A következő sor '{selected}' törlésére készülsz! Biztosan törölni szeretnéd?");
             Console.ForegroundColor = ConsoleColor.White;
+            Console.WriteLine(lineChar);
+            Console.WriteLine($" [0] Nem\n [1] Igen");
+            Console.WriteLine(lineChar);
 
             Console.Write(" Választott menüpont: ");
             string answer = Console.ReadLine();
+
+
+            while (!int.TryParse(answer, out int a) || int.Parse(answer) > 1 || int.Parse(answer) < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" Hiba! Nem létező szám!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" Választott menüpont: ");
+                answer = Console.ReadLine();
+            }
+
 
             if (answer == "1")
             {
@@ -1301,9 +1371,9 @@ namespace LexiConsole
             else
             {
                 Console.Clear();
-                LoadActiveDictionaryItems();
+                LoadActiveDictionaryItems(DictionaryFile);
                 index = SelectIndexFromDictionary();
-                refresh = RemoveItemfromActiveList(index);
+                refresh = RemoveItemfromActiveList(index, DictionaryFile);
             }
 
             return refresh;
@@ -1320,7 +1390,7 @@ namespace LexiConsole
 
             var userInput = Console.ReadLine();
 
-            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > 2)
+            while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > 2 || int.Parse(userInput) < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(" Hiba! Nem létező szám!");
@@ -1390,13 +1460,13 @@ namespace LexiConsole
             string userInput = SetDictionaryName(MenuPoint);
 
             // 2.1 Név karaktervizsgálat
-            var valid = IsDictionaryNameValid(userInput);
+            bool valid = IsDictionaryNameValid(userInput);
 
             // 2.2 Név létezésének vizsgálata
             if (valid)
             {
-                var exist = IsDictionaryExist(userInput);
-                CreateDictionaryFile(exist, userInput);
+                var exists = IsDictionaryExist(userInput);
+                CreateDictionaryFile(exists, userInput);
             }
             else
             {
@@ -1484,7 +1554,7 @@ namespace LexiConsole
             if (exist == true)
             {
                 Console.WriteLine(lineChar);
-                Console.WriteLine($" A szótár '{userInput}' már létezik! Szeretnéd felülírni?\n [0] NEM\n [1] IGEN");
+                Console.WriteLine($" A szótár '{userInput}' már létezik! Szeretnéd felülírni?\n [0] Nem\n [1] Igen");
                 Console.WriteLine(lineChar);
                 Console.Write(" Választott menüpont: ");
             }
@@ -1492,13 +1562,22 @@ namespace LexiConsole
             else
             {
                 Console.WriteLine(lineChar);
-                Console.WriteLine($" A szótár '{userInput}' még nem létezik! Szeretnéd létrehozni?\n [0] NEM\n [1] IGEN");
+                Console.WriteLine($" A szótár '{userInput}' még nem létezik! Szeretnéd létrehozni?\n [0] Nem\n [1] Igen");
                 Console.WriteLine(lineChar);
                 Console.Write(" Választott menüpont: ");
             }
 
             string answer = Console.ReadLine().Trim();
 
+
+            while (!int.TryParse(answer, out int a) || int.Parse(answer) > 1 || int.Parse(answer) < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" Hiba! Nem létező szám!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" Választott menüpont: ");
+                answer = Console.ReadLine();
+            }
 
             if (answer == "1")
             {
@@ -1520,10 +1599,14 @@ namespace LexiConsole
                 }
 
             }
-            else
+            if (answer == "0")
             {
                 Console.Clear();
                 ShowMainMenuMethod();
+            }
+            else
+            {
+
             }
         }
 
@@ -1629,17 +1712,22 @@ namespace LexiConsole
 
         public static void DeleteDictionaryFile(string userInput)
         {
-            var answer = "";
-
-            do
-            {
             Console.WriteLine(lineChar);
-            Console.WriteLine($" A következő szótár '{userInput}' törlésére készülsz. Biztosan törölni szeretnéd?\n [0] NEM\n [1] IGEN");
+            Console.WriteLine($" A következő szótár '{userInput}' törlésére készülsz. Biztosan törölni szeretnéd?\n [0] Nem\n [1] Igen");
             Console.WriteLine(lineChar);
             Console.Write(" Választott menüpont: ");
-            answer = Console.ReadLine().Trim();
+            var answer = Console.ReadLine().Trim();
 
-            } while (answer!="0" && answer!="1");
+
+            while (!int.TryParse(answer, out int a) || int.Parse(answer) > 1 || int.Parse(answer) < 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" Hiba! Nem létező szám!");
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.Write(" Választott menüpont: ");
+                answer = Console.ReadLine();
+            }
+
 
             if (answer == "1")
             {
@@ -1703,19 +1791,22 @@ namespace LexiConsole
 
         public static void RenameDictionaryFile(string userInput, string MenuPoint)
         {
-            var answer = "";
 
-            do
+            Console.Clear();
+            Console.WriteLine(lineChar);
+            Console.WriteLine($" A következő szótár '{userInput}' átnevezésére készülsz! Biztosan folytatod?\n [0] Nem\n [1] Igen");
+            Console.WriteLine(lineChar);
+            Console.Write(" Választott menüpont: ");
+            var answer = Console.ReadLine().Trim();
+
+            while (!int.TryParse(answer, out int a) || int.Parse(answer) > 1 || int.Parse(answer) < 0)
             {
-                Console.Clear();
-                Console.WriteLine(lineChar);
-                Console.WriteLine($" A következő szótár '{userInput}' átnevezésére készülsz! Biztosan folytatod?\n [0] NEM\n [1] IGEN");
-                Console.WriteLine(lineChar);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(" Hiba! Nem létező szám!");
+                Console.ForegroundColor = ConsoleColor.White;
                 Console.Write(" Választott menüpont: ");
                 answer = Console.ReadLine().Trim();
-
-            } while (answer != "0" && answer != "1");
-
+            }
 
             if (answer == "1")
             {
@@ -1755,8 +1846,18 @@ namespace LexiConsole
                                 Console.WriteLine($" A(z) '{newName}' szótár már létezik! Mit szeretnél tenni?\n [0] Vissza\n [1] Felülírás\n [2] Új név megadása");
                                 Console.WriteLine(lineChar);
                                 Console.Write(" Választott menüpont: ");
+                                var answer2 = Console.ReadLine().Trim();
 
-                                var answer2 = Console.ReadLine().Trim().ToUpper();
+
+
+                                while (!int.TryParse(answer2, out int a) || int.Parse(answer2) > 2 || int.Parse(answer2) < 0)
+                                {
+                                    Console.ForegroundColor = ConsoleColor.Red;
+                                    Console.WriteLine(" Hiba! Nem létező szám!");
+                                    Console.ForegroundColor = ConsoleColor.White;
+                                    Console.Write(" Választott menüpont: ");
+                                    answer = Console.ReadLine();
+                                }
 
                                 if (answer2 == "0")
                                 {

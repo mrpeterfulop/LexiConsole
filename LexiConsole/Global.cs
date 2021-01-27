@@ -53,7 +53,7 @@ namespace LexiConsole
             private void SetDefDictionaryPath()
             {
                 DefaultDictionaryPath = Path.GetPathRoot(Environment.SystemDirectory) + @"Users\" + Environment.UserName + @"\Documents\LexiConsole\Dictionaries\";
-                DefaultScorePath = Path.GetPathRoot(Environment.SystemDirectory) + @"Users\" + Environment.UserName + @"\Documents\LexiConsole\Dictionaries\Scores\";
+                DefaultScorePath = Path.GetPathRoot(Environment.SystemDirectory) + @"Users\" + Environment.UserName + @"\Documents\LexiConsole\Scores\";
 
 
                 if(!Directory.Exists(DefaultDictionaryPath))
