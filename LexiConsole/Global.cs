@@ -11,14 +11,12 @@ namespace LexiConsole
             private string DefaultDictionaryPath { get; set; }
             private string DefaultScorePath { get; set; }
 
-
             public Global()
             {
                 SetDefDictionaryPath();
                 SetDefExtension();
                 GetAllDictionaryName();
             }
-
             public void GetAllDictionaryName()
             {
                 var fullpath = GetDefDictionaryPath();

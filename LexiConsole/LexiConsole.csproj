@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data.cs" />
+    <Compile Include="DictionaryProcess.cs" />
+    <Compile Include="Excercise.cs" />
+    <Compile Include="FileProcess.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Methods.cs" />
     <Compile Include="Program.cs" />
