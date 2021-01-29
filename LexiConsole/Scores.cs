@@ -261,9 +261,9 @@ namespace LexiConsole
 
                 WriteRecordsToFile();
                 LoadScoresFile();
-                LoadScores();
-                Methods.Menu_LoadRecordsMethod();
-
+                int reload = LoadScores();
+                SelectRecordDetails(reload);
+            
             }
         }
 
@@ -283,10 +283,20 @@ namespace LexiConsole
                     using (StreamWriter sw = new StreamWriter(fs, Encoding.UTF8))
                     {
 
+                        int index = 0;
                         foreach (var item in ScoreList)
                         {
-                            var dataLine = $"{item.DateStart};{item.DateEnd};{item.Lexicon};{item.Score};{item.Words};{string.Join("|", item.FailedWords)}";
-                            sw.WriteLine(dataLine);
+                            string dataLine;
+                            if (index != ScoreList.Count-1)
+                            {
+                                 dataLine = $"{item.DateStart};{item.DateEnd};{item.Lexicon};{item.Score};{item.Words};{string.Join("|", item.FailedWords)}\n";
+                            }
+                            else
+                            {
+                                dataLine = $"{item.DateStart};{item.DateEnd};{item.Lexicon};{item.Score};{item.Words};{string.Join("|", item.FailedWords)}";
+                            }
+                            sw.Write(dataLine);
+                            index++;
                         }
                     }
                 }
@@ -321,6 +331,7 @@ namespace LexiConsole
                         {
                             string[] line = sr.ReadLine().Split(';');
                             string score;
+
                             if (line[5].Length == 0)
                             {
                                 score = "-";
@@ -342,15 +353,15 @@ namespace LexiConsole
 
         }
 
-        public static void ExportScore(DateTime startTime, DateTime endTime, int score, int WordCount, string dictionaryName, List<string> Failed)
+        public static void ExportScore(DateTime startTime, DateTime endTime, int score, int WordCount, string dictionaryName, List<string> faliedList)
         {
             string filePath = Excercise.DefineScoreDictionary("MyScores");
 
             LoadScoresFile();
 
-            var dataLine = $"{startTime};{endTime};{dictionaryName};{score};{WordCount};{string.Join("|", Failed)}";
+            var dataLine = $"{startTime};{endTime};{dictionaryName};{score};{WordCount};{string.Join("|", faliedList)}";
 
-            if (Scores.ScoreList.Count == 0)
+            if (ScoreList.Count == 0)
             {
                 File.AppendAllText(filePath, $"{dataLine}", Encoding.UTF8);
             }
