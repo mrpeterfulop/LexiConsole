@@ -331,45 +331,54 @@ namespace LexiConsole
         public static string GetDataFromUser(string DictionaryFile)
         {
 
+
             Console.Clear();
 
             FileProcess.ReadDataFromFile(DictionaryFile);
-            Console.WriteLine($"\n {DictionaryFile} -> Új szavak bevitele");
+            Console.WriteLine($"\n {DictionaryFile} -> Új szavak bevitele -> Kilépés: [0]");
 
             Console.WriteLine(lineChar1);
+
+
             Console.Write(" Add meg a kifejezés 1. jelentését: ");
 
-            string userInput_1 = Console.ReadLine();
-
+            string userInput_1 = Methods.ExitOrNext();
 
             bool existKeyProblem = KeyValueCheckerMethod(userInput_1);
+
 
             while (existKeyProblem || userInput_1.Length < 2)
             {
                 Console.Write(" Add meg a kifejezés 1. jelentését újra: ");
-                userInput_1 = Console.ReadLine();
+                userInput_1 = Methods.ExitOrNext();
                 existKeyProblem = KeyValueCheckerMethod(userInput_1);
+
             }
 
 
             Console.WriteLine(lineChar1);
             Console.Write(" Add meg a kifejezés 2. jelentését: ");
 
-            string userInput_2 = Console.ReadLine();
-
+            string userInput_2 = Methods.ExitOrNext();
 
             existKeyProblem = KeyValueCheckerMethod(userInput_2);
 
             while (existKeyProblem | userInput_2.Length < 2)
             {
                 Console.Write(" Add meg a kifejezés 2. jelentését újra: ");
-                userInput_2 = Console.ReadLine();
+                userInput_2 = Methods.ExitOrNext();
+
                 existKeyProblem = KeyValueCheckerMethod(userInput_2);
             }
 
+
             return $"{userInput_1};{userInput_2}";
 
+
+
         }
+
+        
 
         public static void WriteToDictionaryFile(string DictionaryFile, string newDoublet)
         {

@@ -146,6 +146,8 @@ namespace LexiConsole
 
                 string[] puffer = ScoreList[listIndex].FailedWords.Split('|');
 
+                string failed = puffer.Length > 1 ? puffer.Length.ToString() : "Nincs";
+
                 Console.ForegroundColor = ConsoleColor.DarkGray;
                 Console.WriteLine($" Azonosító: [{listIndex + 1}]");
                 Console.WriteLine($"\n Szótár neve: {ScoreList[listIndex].Lexicon}");
@@ -155,7 +157,7 @@ namespace LexiConsole
                 Console.WriteLine($"\n Pontok: {ScoreList[listIndex].Score}/{ScoreList[listIndex].Words}");
                 Console.WriteLine($" Százalékos eredmény: {Math.Round((ScoreList[listIndex].Score / ScoreList[listIndex].Words * 100), 0)}%");
 
-                Console.WriteLine($"\n {puffer.Length} hibázott kifejezés:");
+                Console.WriteLine($"\n {failed} hibázott kifejezés:");
 
                 int counter = 0;
 

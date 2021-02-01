@@ -14,7 +14,7 @@ namespace LexiConsole
         // 0. Main Menu teljes metódus
         public static void ShowMainMenuMethod()
         {
-            Console.Title = $@"Hello {Environment.UserName}! Welcome to the LexiC#onsol!   ¯\_(☉ᴗ☉)_/¯   [A|B]";
+            Console.Title = $@"Hello {Environment.UserName}! Welcome to the LexiConsol!   ¯\_(☉ᴗ☉)_/¯   [A|B]";
 
             Console.Clear();
             Console.WriteLine(lineChar2);
@@ -106,6 +106,9 @@ namespace LexiConsole
                 case 9:
                     ShowMainMenuMethod();
                     break;
+                case 10:
+                    RunTestMethod();
+                    break;
                 case 0:
                     Environment.Exit(menuTag);
                     break;
@@ -117,6 +120,20 @@ namespace LexiConsole
 
         #endregion
 
+
+        public static void RunTestMethod()
+        {
+
+
+            string deleteFile = "olasz-magyar (1)";
+
+            FileProcess.DeleteDictionaryFile(deleteFile);
+
+            Console.WriteLine();
+
+            ShowFooterMenu();
+
+        }
 
         public static void SelectSubMenuMethod(int mainMenuTag, int subMenuTag, string dictionaryName)
             {
@@ -279,6 +296,17 @@ namespace LexiConsole
 
         }
 
+        public static string ExitOrNext()
+        {
+            string userInput = Console.ReadLine();
+
+            if (userInput == "0")
+            {
+                Methods.ShowMainMenuMethod();
+            }
+
+            return userInput;
+        }
 
         #region MainMenu_01 Gyakorlás
         public static void Menu_Practice(int MenuPoint)

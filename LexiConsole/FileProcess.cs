@@ -47,12 +47,14 @@ namespace LexiConsole
         public static string SetDictionaryName(string MenuPoint)
         {
             var userInput = "";
+
             do
             {
-                Console.WriteLine($"\n {MenuPoint}");
+                Console.WriteLine($"\n {MenuPoint} -> Kilépés: [0]");
                 Console.WriteLine(lineChar2);
                 Console.Write(" Add meg az új szótár nevét: ");
-                userInput = Console.ReadLine().Trim();
+                userInput = Methods.ExitOrNext().Trim();
+
 
                 if (userInput.Length < 3)
                 {
@@ -73,7 +75,7 @@ namespace LexiConsole
         // 2. Karaktervizsgálat
         public static bool IsDictionaryNameValid(string userInput)
         {
-            string illegal = @"[\\/:*!?"".,+=()˝~ˇ^˘°˛`˙´¨¸÷×đĐłŁß¤§%'<>{}#@$|]";
+            string illegal = @"[\\/:*!?().,+=˝~ˇ^˘°˛`˙´¨¸÷×đĐłŁß¤§%'<>{}#@$|]";
 
 
             foreach (char c in userInput)
@@ -82,7 +84,6 @@ namespace LexiConsole
                 {
                     return false;
                 }
-
 
             }
             return true;
@@ -246,25 +247,13 @@ namespace LexiConsole
         public static void DeleteDictionaryFileMethod(string dictionaryName, string MenuPoint)
         {
             Console.Clear();
-            // 1. Név meghatározása 
+
             string userInput = dictionaryName;
+            var exist = IsDictionaryExist(userInput);
 
-            // 2.1 Név karaktervizsgálat
-            var valid = IsDictionaryNameValid(userInput);
-
-            // 2.2 Név létezésének vizsgálata
-            if (valid)
-            {
-                var exist = IsDictionaryExist(userInput);
-                if (exist) DeleteDictionaryFile(userInput);
-                else Console.WriteLine(" A file nem létezik!");
-            }
-
-            else
-            {
-                Console.WriteLine($" A megadott {userInput} érvénytelen!");
-                DeleteDictionaryFileMethod(userInput, MenuPoint);
-            }
+            if (exist) DeleteDictionaryFile(userInput);
+            else Console.WriteLine(" A file nem létezik!");
+  
         }
 
         public static void DeleteDictionaryFile(string userInput)
