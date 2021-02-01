@@ -25,17 +25,17 @@ namespace LexiConsole
             else
             {
                 Console.Clear();
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine($" Hiba! A megadott '{userInput}' érvénytelen!");
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
 
                 CreateDictionaryMethod(MenuPoint);
             }
 
 
-            bool repeat = Methods.FileMethodRepeat();
+            bool repeat = Methods.RepeatActualMethod();
             if (repeat)
             {
                 CreateDictionaryMethod(MenuPoint);
@@ -57,11 +57,11 @@ namespace LexiConsole
                 if (userInput.Length < 3)
                 {
                     Console.Clear();
-                    Console.WriteLine(lineChar);
+                    Console.WriteLine(lineChar1);
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(" A szótár nevének hossza minimum 3 karakter kell hogy legyen!");
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine(lineChar);
+                    Console.WriteLine(lineChar1);
 
                 }
 
@@ -110,17 +110,17 @@ namespace LexiConsole
 
             if (exist == true)
             {
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.WriteLine($" A szótár '{userInput}' már létezik! Szeretnéd felülírni?\n [0] Nem\n [1] Igen");
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.Write(" Választott menüpont: ");
             }
 
             else
             {
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.WriteLine($" A szótár '{userInput}' még nem létezik! Szeretnéd létrehozni?\n [0] Nem\n [1] Igen");
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.Write(" Választott menüpont: ");
             }
 
@@ -147,7 +147,7 @@ namespace LexiConsole
                     {
                         Console.Clear();
                         Console.WriteLine($"\n Az új szótár: '{userInput}' létrejött! Mit szeretnél tenni?");
-                        Console.WriteLine(lineChar);
+                        Console.WriteLine(lineChar1);
                     }
                 }
                 catch (Exception)
@@ -226,9 +226,9 @@ namespace LexiConsole
             ReadDataFromFile(DictionaryFile);
 
             Console.Clear();
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine($" {DictionaryFile} | kifejezések száma: {activeDictionary.Count}");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             foreach (var szavak in activeDictionary)
@@ -269,9 +269,9 @@ namespace LexiConsole
 
         public static void DeleteDictionaryFile(string userInput)
         {
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine($" A következő szótár '{userInput}' törlésére készülsz. Biztosan törölni szeretnéd?\n [0] Nem\n [1] Igen");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.Write(" Választott menüpont: ");
             var answer = Console.ReadLine().Trim();
 
@@ -351,9 +351,9 @@ namespace LexiConsole
         {
 
             Console.Clear();
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine($" A következő szótár '{userInput}' átnevezésére készülsz! Biztosan folytatod?\n [0] Nem\n [1] Igen");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.Write(" Választott menüpont: ");
             var answer = Console.ReadLine().Trim();
 
@@ -412,9 +412,9 @@ namespace LexiConsole
                             else
                             {
                                 Console.Clear();
-                                Console.WriteLine(lineChar);
+                                Console.WriteLine(lineChar1);
                                 Console.WriteLine($" A(z) '{newName}' szótár már létezik! Mit szeretnél tenni?\n [0] Vissza\n [1] Felülírás\n [2] Új név megadása");
-                                Console.WriteLine(lineChar);
+                                Console.WriteLine(lineChar1);
                                 Console.Write(" Választott menüpont: ");
                                 var answer2 = Console.ReadLine().Trim();
 

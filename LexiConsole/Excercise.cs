@@ -34,7 +34,7 @@ namespace LexiConsole
         public static int GetNumberFromUser()
         {
             Console.WriteLine($"\n A kérdések számának beállításához adj meg egy számot 1 és {activeDictionary.Count()} között!");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.Write(" A szám: ");
             string userInput = Console.ReadLine();
 
@@ -45,7 +45,7 @@ namespace LexiConsole
                 Console.WriteLine($"\n Hibásan megadott adat!");
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine($"\n A kérdések számának beállításához adj meg egy számot 1 és {activeDictionary.Count()} között!");
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
 
                 Console.Write(" A szám: ");
                 userInput = Console.ReadLine();
@@ -89,7 +89,7 @@ namespace LexiConsole
 
                 Console.Clear();
                 Console.WriteLine($"\n Gyakorlás -> {dictionaryName} -> {SubMenuTags_1[typeOfExcercise]} -> {SubMenuTags_1_1[typeOfRepeat]}");
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine(" [0] Kilépés");
                 Console.ForegroundColor = ConsoleColor.Cyan;
@@ -148,7 +148,7 @@ namespace LexiConsole
 
                 var question = $" {Puffer.Count}/{WordCount}  <<< {searchFor} >>>  -  ";
 
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.WriteLine($" Add meg a szó jelentését: ");
                 Console.Write(question);
 
@@ -172,9 +172,9 @@ namespace LexiConsole
                     Console.Clear();
 
                     Console.WriteLine($"\n Gyakorlás > {dictionaryName} > {SubMenuTags_1[typeOfExcercise]} > {SubMenuTags_1_1[typeOfRepeat]}");
-                    Console.WriteLine(lineChar);
+                    Console.WriteLine(lineChar1);
                     Console.WriteLine(" [0] Vissza a főmenübe! \n [1] Következő szó");
-                    Console.WriteLine(lineChar);
+                    Console.WriteLine(lineChar1);
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine($" Keresett kifejezés: {searchFor} ");
                     Console.ForegroundColor = ConsoleColor.Magenta;
@@ -200,7 +200,7 @@ namespace LexiConsole
                     Console.WriteLine($" A válaszod: '{answer}', {match}!");
 
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine(lineChar);
+                    Console.WriteLine(lineChar1);
                     Console.Write(" Választott menüpont: ");
                     string next = Console.ReadLine();
 
@@ -250,11 +250,11 @@ namespace LexiConsole
         public static void AskAboutExport(DateTime startTime, DateTime endTime, int score, int WordCount, string dictionaryName, List<string> Failed)
         {
 
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine(" Mented az eredményeidet?\n [0] Nem\n [1] Igen");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.Write(" Választott menüpont: ");
             string exportAnswer = Console.ReadLine();

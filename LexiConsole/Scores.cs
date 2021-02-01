@@ -8,7 +8,7 @@ namespace LexiConsole
 {
     class Scores:Data
     {
-        public static List<Scores> ScoreList = new List<Scores>();
+        private static List<Scores> ScoreList = new List<Scores>();
 
         public Scores(DateTime dateStart, DateTime dateEnd, string lexicon, double score, double words, string failedWords)
         {
@@ -187,7 +187,7 @@ namespace LexiConsole
 
         public static void ShowBackMenu(int listIndex)
         {
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(" [0] Kilépés");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
@@ -195,7 +195,7 @@ namespace LexiConsole
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine(" [2] Eredmény törlése");
 
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.Write(" Választott menüpont: ");
 
@@ -232,9 +232,9 @@ namespace LexiConsole
         {
 
             Console.WriteLine($"\n Biztosan törölni szeretnéd a kijelölt [{listIndex + 1}]. rekordot?");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine(" [0] Nem\n [1] Igen");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.Write($" Választott menüpont: ");
 
             var userInput = Console.ReadLine();

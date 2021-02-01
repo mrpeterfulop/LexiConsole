@@ -12,8 +12,8 @@ namespace LexiConsole
         public static string[] SubMenuTags_3 = new string[] { "Vissza", "Szavak bevitele", "Szavak módosítása", "Szavak törlése" };
         public static string[] SubMenuTags_4 = new string[] { "Vissza", "Szótár átnevezése", "Szótár törlése" };
 
-        public static string lineChar = " ----------------------------------------------------------------------------------------------------";
-        public static string lineChar2 = " ====================================================================================================";
+        public static string lineChar1 = " " + new string('-', 100);
+        public static string lineChar2 = " " + new string('=', 100);
 
     }
     

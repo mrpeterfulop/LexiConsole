@@ -84,7 +84,7 @@ namespace LexiConsole
             // Ha nincsenek szótárfájlok
             if (g.myDictionaries.Count == 0 && MenuPoint != 5)
             {
-                Console.WriteLine($"\n Jeneleg nincsenek még szótáraid, előbb hozz létre egyet!");
+                Console.WriteLine($"\n Jelenleg nincsenek még szótáraid, előbb hozz létre egyet!");
                 Methods.ShowFooterMenu();
             }
 
@@ -99,7 +99,7 @@ namespace LexiConsole
                 ShowExistsDictionaries(false, true);
                 Console.ForegroundColor = ConsoleColor.White;
 
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 index = SelectDictionaryTag();
 
                 return g.myDictionaries[index - 1];
@@ -148,7 +148,7 @@ namespace LexiConsole
             SplitItemToEdit(index, DictionaryFile);
             RefreshActiveListFile(DictionaryFile);
 
-            bool repeat = Methods.FileMethodRepeat();
+            bool repeat = Methods.RepeatActualMethod();
             if (repeat)
             {
                 EditDictionaryItemMethod(DictionaryFile);
@@ -166,14 +166,14 @@ namespace LexiConsole
             string selectedValue = selected.Value;
 
 
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine(" Add meg a módosítani kívánt kifejezés sorszámát [?] a továbblépéshez!\n");
             Console.ForegroundColor = ConsoleColor.Cyan;
             Console.WriteLine(" [0] Vissza");
             Console.ForegroundColor = ConsoleColor.White;
 
             Console.WriteLine($" [1] {selectedKey}\n [2] {selectedValue}\n");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
 
             Console.Write(" Választott menüpont: ");
@@ -208,7 +208,7 @@ namespace LexiConsole
                     break;
             }
 
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
         }
 
@@ -220,7 +220,7 @@ namespace LexiConsole
             Console.Clear();
             do
             {
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.Write($" A(z) '{input}' kifejezés új értéke: ");
                 userInput = Console.ReadLine().Trim();
                 next = KeyValueCheckerMethod(userInput);
@@ -247,7 +247,7 @@ namespace LexiConsole
             }
 
             Console.Clear();
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine($" A(z) '{input}' kifejezés új megfelelője '{userInput}' sikeresen frissítve! Mit szeretnél tenni?");
 
         }
@@ -261,7 +261,7 @@ namespace LexiConsole
             //Adatbekérés a felhasználótól (2 szó)
             WriteToDictionaryFile(DictionaryFile, GetDataFromUser(DictionaryFile));
 
-            bool repeat = Methods.FileMethodRepeat();
+            bool repeat = Methods.RepeatActualMethod();
             if (repeat)
             {
                 WriteToDictionaryFileMethod(DictionaryFile);
@@ -309,7 +309,7 @@ namespace LexiConsole
                 restart = true;
 
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
 
                 if (valueOfInput.Length > 0)
                 {
@@ -319,7 +319,7 @@ namespace LexiConsole
                 {
                     Console.WriteLine($" Hiba! A bevitt érték '{userInput}' már szerepel a szótárban, mint '{keyOfInput}'!");
                 }
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.ForegroundColor = ConsoleColor.White;
 
 
@@ -336,7 +336,7 @@ namespace LexiConsole
             FileProcess.ReadDataFromFile(DictionaryFile);
             Console.WriteLine($"\n {DictionaryFile} -> Új szavak bevitele");
 
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.Write(" Add meg a kifejezés 1. jelentését: ");
 
             string userInput_1 = Console.ReadLine();
@@ -352,7 +352,7 @@ namespace LexiConsole
             }
 
 
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.Write(" Add meg a kifejezés 2. jelentését: ");
 
             string userInput_2 = Console.ReadLine();
@@ -386,9 +386,9 @@ namespace LexiConsole
             }
 
             Console.Clear();
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine($" A(z) '{newDoublet}' szópár bekerült a(z) '{DictionaryFile}' szótárba! Mit szeretnél tenni?");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
         }
 
@@ -415,7 +415,7 @@ namespace LexiConsole
                 RefreshActiveListFile(DictionaryFile);
                 DeleteMethodRepeat(DictionaryFile);
 
-                bool repeat = Methods.FileMethodRepeat();
+                bool repeat = Methods.RepeatActualMethod();
                 if (repeat)
                 {
                     DeleteMethodRepeat(DictionaryFile);
@@ -426,9 +426,9 @@ namespace LexiConsole
 
         public static void LoadActiveDictionaryItems(string DictionaryFile)
         {
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine($" {DictionaryFile} > Válaszd ki a módosítani kívánt elem sorszámát [?] a továbblépéshez!");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine(" [0] Főmenü");
@@ -448,7 +448,7 @@ namespace LexiConsole
 
         public static int SelectIndexFromDictionary()
         {
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.Write(" Választott sorszám: ");
 
             string userInput = Console.ReadLine();
@@ -462,9 +462,9 @@ namespace LexiConsole
             while (!int.TryParse(userInput, out int a) || int.Parse(userInput) > activeDictionary.Count || int.Parse(userInput) < 0)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.WriteLine(" Hiba! Nem létező sorszám!");
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.Write(" Választott sorszám: ");
 
@@ -487,13 +487,13 @@ namespace LexiConsole
             bool refresh = false;
 
             Console.Clear();
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine($" A következő sor '{selected}' törlésére készülsz! Biztosan törölni szeretnéd?");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.WriteLine($" [0] Nem\n [1] Igen");
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.Write(" Választott menüpont: ");
             string answer = Console.ReadLine();
@@ -514,9 +514,9 @@ namespace LexiConsole
                 activeDictionary.Remove(selected.Key);
                 activeDictionary.Remove(selected.Value);
                 Console.Clear();
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 Console.WriteLine($" A következő szópár '{selected}' törlésre került! Mit szeretnél tenni?");
-                Console.WriteLine(lineChar);
+                Console.WriteLine(lineChar1);
                 refresh = true;
             }
 
@@ -536,7 +536,7 @@ namespace LexiConsole
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine(" [0] Kilépés\n [1] Vissza a főmenübe\n [2] Újabb művelet");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.Write(" Választott menüpont: ");
 

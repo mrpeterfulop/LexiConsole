@@ -34,7 +34,7 @@ namespace LexiConsole
         // 1. Menüpontok felépítése a csatolt tömb alapján
         public static void CreateMenu(Array arrayOfMenu)
         {
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.ForegroundColor = ConsoleColor.Red;
             foreach (var item in arrayOfMenu)
@@ -49,7 +49,7 @@ namespace LexiConsole
             }
 
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
         }
 
         // 2. Menüponthoz tartozó index lekérdezése
@@ -116,6 +116,7 @@ namespace LexiConsole
         }
 
         #endregion
+
 
         public static void SelectSubMenuMethod(int mainMenuTag, int subMenuTag, string dictionaryName)
             {
@@ -197,14 +198,14 @@ namespace LexiConsole
 
         public static void ShowFooterMenu()
         {
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(" [0] Kilépés");
             Console.ForegroundColor = ConsoleColor.DarkYellow;
             Console.WriteLine(" [1] Vissza");
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.Write(" Választott menüpont: ");
 
@@ -232,7 +233,7 @@ namespace LexiConsole
 
         }
 
-        public static bool FileMethodRepeat()
+        public static bool RepeatActualMethod()
         {
             bool repeat = false;
 
@@ -241,7 +242,7 @@ namespace LexiConsole
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine(" [1] Vissza a főmenübe\n [2] Művelet ismétlése");
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine(lineChar);
+            Console.WriteLine(lineChar1);
 
             Console.Write(" Választott menüpont: ");
 
